@@ -63,7 +63,7 @@
             $arr = $statement->errorInfo();
              print_r($arr);
 		   Database::disconnect();
-           header("Location: view.php?Services_Id=$Services_Id");
+           header("Location: view1.php?Services_Id=$Services_Id");
         }
     }
     else 

@@ -10,7 +10,7 @@
 		$result = Null;
 		$tmpName = Null;
 		$rep= '../Configuration';
-	    $tmpGroupeName =  Null;
+		 $tmpGroupeName =  Null;
 		 $tablo = array();
 		if(empty($Services_Id)) 
         {
@@ -39,13 +39,11 @@
 				$tablo[] =$result;	
 				$tmpName =  $result['Service_Name'];
 				$tmpGroupeName =  $result['Users_Groupe_Name'];
-				
 			}
     
 			 print_r($tablo);
 		      
 			  echo  $tmpName;
-			  echo $tmpGroupeName;
 		  
 			   Database::disconnect();
           //header("Location: view.php?Services_Id=$Services_Id");
@@ -96,7 +94,7 @@
             <div class="row">
                 <h1><strong>Editer Une Configuration</strong></h1>
                 <br>
-                <form class="form" action="index.php" role="form" method="post">
+                <form class="form" action="usesr_non_admin.php" role="form" method="post">
                     <input type="hidden" name="Services_Id" value="<?php echo $Services_Id;?>"/>
                     <p class="alert alert-warning">Etes vous sur de vouloir Editer cette configuration ?</p>
                     <div class="form-actions">

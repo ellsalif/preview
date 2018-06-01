@@ -1,15 +1,16 @@
 <?php
  require '../database/database.php';
-  $Service_Content_labelError = $Service_Content_NameError = $Service_Content_UrlError = $Service_IdError = $PfError = $Service_Content_label = $Service_Content_Name  = $Service_Content_Url = $Service_Id = $Pf = "";
+  $Service_Content_labelError = $Service_Content_NameError = $Service_Content_ParamsError = $Service_Content_UrlError = $Services_IdError = $PfError = $Service_Content_label = $Service_Content_Name = $Service_Content_Params = $Service_Content_Url = $Services_Id = $Pf = "";
   
   if(!empty($_POST)) 
-    {   
+    {    echo $_POST['Services_Id'];
 
 
         $Service_Content_label              = checkInput($_POST['Service_Content_label']);
 		$Service_Content_Name               = checkInput($_POST['Service_Content_Name']);
+        $Service_Content_Params             = checkInput($_POST['Service_Content_Params']);
 		$Service_Content_Url                = checkInput($_POST['Service_Content_Url']);
-		$Service_Id              		    = checkInput($_POST['Service_Id']);
+		$Services_Id              		    = checkInput($_POST['Services_Id']);
 		$Pf                                 = checkInput($_POST['Pf']);
 		
 		
@@ -25,6 +26,11 @@
             $Service_Content_NameError = 'Ce champ ne peut pas être vide';
             $isSuccess = false;
         } 
+        if(empty($Service_Content_Params)) 
+        {
+            $Service_Content_ParamsError = 'Ce champ ne peut pas être vide';
+            $isSuccess = false;
+        } 
         
 		if(empty($Service_Content_Url)) 
         {
@@ -32,9 +38,9 @@
             $isSuccess = false;
         } 
 		
-		if(empty($Service_Id)) 
+		if(empty($Services_Id)) 
         {
-            $Service_IdError = 'Ce champ ne peut pas être vide';
+            $Services_IdError = 'Ce champ ne peut pas être vide';
             $isSuccess = false;
         } 
 		if(empty($Pf)) 
@@ -42,13 +48,13 @@
             $PfError = 'Ce champ ne peut pas être vide';
             $isSuccess = false;
         } 
-		 echo $_POST['Service_Id'];
+		 echo $_POST['Services_Id'];
         if($isSuccess) 
         {
 			echo "je suis dans issucees";
             $db = Database::connect();
-            $statement = $db->prepare("INSERT INTO service_content(Service_Content_label,Service_Content_Name,Service_Content_Url,Service_Id,Pf) values(?, ?, ?, ?, ?)");
-	        $statement->execute(array($Service_Content_label,$Service_Content_Name,$Service_Content_Url,$Service_Id,$Pf));
+            $statement = $db->prepare("INSERT INTO service_content(Service_Content_label,Service_Content_Name,Service_Content_Params,Service_Content_Url,Services_Id,Pf) values(?, ?, ?, ?, ?, ?)");
+	        $statement->execute(array($Service_Content_label,$Service_Content_Name,$Service_Content_Params,$Service_Content_Url,$Services_Id,$Pf));
 			 echo "jai pris la requette";
             
 			
@@ -57,7 +63,7 @@
              print_r($arr);
             var_dump($statement);
 		   Database::disconnect();
-          //header("Location: view.php?Service_Id=$Service_Id");
+          header("Location: view1.php?Services_Id=$Services_Id");
         }
     }
 	
@@ -102,24 +108,30 @@
                         <span class="help-inline"><?php echo $Service_Content_NameError;?></span>
                     </div>
 					<div class="form-group">
+                        <label for="Service_Content_Params">Parametres:</label>
+                        <input type="text" class="form-control" id="Service_Content_Params" name="Service_Content_Params" placeholder="Parametres" value="<?php echo $Service_Content_Params;?>">
+                        <span class="help-inline"><?php echo $Service_Content_ParamsError;?></span>
+                    </div>
+					
+					<div class="form-group">
                         <label for="Service_Content_Url">URL:</label>
                         <input type="text" class="form-control" id="Service_Content_Url" name="Service_Content_Url" placeholder="URL" value="<?php echo $Service_Content_Url;?>">
                         <span class="help-inline"><?php echo $Service_Content_UrlError;?></span>
                     </div>
 					
 					 <div class="form-group">
-                        <label for="Service_Id">Service:</label>
-                        <select class="form-control" id="Service_Id" name="Service_Id">
+                        <label for="Services_Id">Service:</label>
+                        <select class="form-control" id="Services_Id" name="Services_Id">
                         <?php
                            $db = Database::connect();
-                           foreach ($db->query('SELECT Service_Id,Service_Name FROM  services_preview') as $row) 
+                           foreach ($db->query('SELECT Services_Id,Service_Name FROM  services_preview') as $row) 
                            {
-                                echo '<option value="'. $row['Service_Id'] .'">'. $row['Service_Name'] . '</option>';;
+                                echo '<option value="'. $row['Services_Id'] .'">'. $row['Service_Name'] . '</option>';;
                            }
                            Database::disconnect();
                         ?>
                         </select>
-                        <span class="help-inline"><?php echo $Service_IdError;?></span>
+                        <span class="help-inline"><?php echo $Services_IdError;?></span>
                     </div>
 					
 			        <div class="form-group">
@@ -131,7 +143,7 @@
                     <br>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Ajouter</button>
-                        <a class="btn btn-primary" href="index.php"><span class="glyphicon glyphicon-arrow-left"></span> Retour</a>
+                        <a class="btn btn-primary" href="usesr_non_admin.php"><span class="glyphicon glyphicon-arrow-left"></span> Retour</a>
                    </div>
                 </form>
             </div>
